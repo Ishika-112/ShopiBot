@@ -7,20 +7,16 @@ import os
 import io
 import json
 import re
-import sqlite3
+import os
 
 app = Flask(__name__)
 
-def create_tables():
-    conn = sqlite3.connect('instance/database.db')
-    cursor = conn.cursor()
-    cursor.execute('''CREATE TABLE IF NOT EXISTS products (
-                        id INTEGER PRIMARY KEY AUTOINCREMENT,
-                        name TEXT NOT NULL,
-                        price REAL NOT NULL
-                    )''')
-    conn.commit()
-    conn.close()
+# Database config (SQLite in instance folder)
+os.makedirs("instance", exist_ok=True)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///instance/database.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+db = SQLAlchemy(app)
 
 
 #---defining tables models-----
