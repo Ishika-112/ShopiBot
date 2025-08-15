@@ -7,41 +7,20 @@ import os
 import io
 import json
 import re
+import sqlite3
 
 app = Flask(__name__)
 
-# ---- Safe optional spaCy load (avoid crash if model not present) ----
-try:
-    import spacy
-    try:
-        nlp = spacy.load("en_core_web_sm")
-    except Exception:
-        nlp = None  # model not available on server; continue without it
-except ImportError:
-    nlp = None
-
-# ---- SQLite path: create instance dir and point DB there ----
-BASE_DIR = os.path.abspath(os.path.dirname(__file__))
-instance_dir = os.path.join(BASE_DIR, 'instance')
-os.makedirs(instance_dir, exist_ok=True)  # create folder if missing
-db_path = os.path.join(instance_dir, 'Grocery.db')
-
-app.secret_key = "my_secret_key"
-app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{db_path}"
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-
-db = SQLAlchemy(app)
-
-# Create tables once the app starts serving (safe for Gunicorn)
-
 def create_tables():
-    db.create_all()
-    print("Tables created successfully")
-
-# Simple health check (helps Railway)
-@app.route("/health")
-def health():
-    return "ok", 200
+    conn = sqlite3.connect('instance/database.db')
+    cursor = conn.cursor()
+    cursor.execute('''CREATE TABLE IF NOT EXISTS products (
+                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        name TEXT NOT NULL,
+                        price REAL NOT NULL
+                    )''')
+    conn.commit()
+    conn.close()
 
 
 #---defining tables models-----
@@ -886,14 +865,26 @@ items = [
 if __name__ == "__main__":
     # Local run (Railway भी इसी HOST/PORT पर चलाता है)
     port = int(os.environ.get("PORT", 8080))
+    
     with app.app_context():
+        # Tables create करो
         db.create_all()
+        
         # Seed products if not present
-        for item in items:
-            exists = Products.query.filter_by(name=item.name, availablePacking=item.availablePacking).first()
-            if not exists:
-                db.session.add(item)
-        db.session.commit()
+        try:
+            for item in items:
+                exists = Products.query.filter_by(
+                    name=item.name,
+                    availablePacking=item.availablePacking
+                ).first()
+                if not exists:
+                    db.session.add(item)
+            db.session.commit()
+            print("Tables created and products seeded successfully.")
+        except Exception as e:
+            print("Error while seeding products:", e)
+    
+    # App run
     app.run(host="0.0.0.0", port=port, debug=False)
 
 
