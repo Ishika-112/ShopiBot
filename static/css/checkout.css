@@ -1,0 +1,169 @@
+* {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f4f3;
+  color: #333;
+}
+
+.main {
+  background-color: #2d6a4f;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 1rem 2rem;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.logo img {
+  height: 40px;
+  object-fit: cover;
+  margin-right: 10px;
+}
+
+.logo h2 {
+  color: #fff;
+}
+
+nav {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+nav a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 18px;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+.login {
+  max-width: 500px;
+  width: 90%;
+  margin: 70px auto;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+}
+
+.login h2 {
+  text-align: center;
+  color: #1b4332;
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin: 10px 0 5px 0;
+  font-weight: bold;
+}
+
+input {
+  width: 100%;
+  height: 35px;
+  border-radius: 5px;
+  border: 1px solid #333;
+  margin-bottom: 20px;
+  padding: 0 10px;
+}
+select {
+  width: 100%;
+  padding: 0.6rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background-color: white;
+  margin-top: 0.3rem;
+}
+button {
+  width: 100%;
+  height: 40px;
+  border: none;
+  background-color: #40916c;
+  color:#ffff;
+  border-radius: 6px;
+  font-weight:bold;
+  margin-top:10px;
+}
+button:hover {
+  cursor: pointer;
+  background-color: #1b4332;
+}
+
+p {
+  text-align: center;
+  margin-top: 15px;
+}
+
+
+
+
+.footer {
+  padding: 1rem;
+  background-color: #2d6a4f;
+  text-align: center;
+}
+
+.footer p {
+  color: #fff;
+  font-size: 16px;
+}
+
+/*  Responsive Design */
+@media (max-width: 768px) {
+  .main {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  nav {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .logo {
+    margin-bottom: 10px;
+  }
+
+  .login {
+    width: 95%;
+    margin: 50px auto;
+  }
+
+  nav a {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .login {
+    padding: 20px;
+  }
+
+  input, button {
+    height: 38px;
+  }
+
+  .logo h2 {
+    font-size: 20px;
+  }
+
+  nav a {
+    font-size: 15px;
+  }
+}

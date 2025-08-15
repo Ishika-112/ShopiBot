@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+ <html lang="en">
+ <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatBot-Smart Grocery Store Assistant</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="stylesheet"href="{{ url_for('static', filename='css/chatbot.css') }}">
+ </head>
+ <body>
+    <header>
+        <div class="main">
+            <div class="logo">
+                <img src="{{ url_for('static', filename='images/logo.png') }}">
+                <h2>ShopiBot</h2>
+
+            </div>
+             <nav>
+                <a href="{{url_for('home')}}">Home</a>
+                <a href="{{url_for('logout')}}">Logout</a>
+                <a href="{{url_for('cart')}}">Cart</a>
+                
+
+            </nav>
+        </div>
+        
+        
+    </header>
+    <section class="main-section">
+    <!-- Chatbot Area -->
+    <div class="chatbot">
+        <div class="chat">
+            <div class="bot-message">
+                <i class="fa-solid fa-comment"></i>
+                <p>Hello! I am your grocery assistant. What do you need?</p>
+            </div>
+        </div>
+        <div class="user-message">
+    <form id="chat-form" method="post">
+        <input type="text" id="user-input" placeholder="Type your grocery request..." required />
+        
+        <!-- 🎙 Voice Button -->
+        <button type="button" id="voiceBtn" title="Speak your order">
+            🎙
+        </button>
+
+        <button id="send" type="submit">Send</button>
+    </form>
+</div>
+
+    </div>
+<!-- Product List Area -->
+<div class="product-list">
+    <h3>Available Products</h3>
+    <h4>You can also click on the particular product to add it to your cart!</h4>
+    <table id="productTable">
+        <thead>
+            <tr>
+                <th>Item Name</th>
+                <th>Price (₹)(per unit)</th>
+                <th>Quantity (In Stock)</th>
+                <th>Available Packing</th>
+                <th>Unit</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in products %}
+            <tr class="product-row" 
+                data-name="{{ product.name }}" 
+                data-packing="{{ product.availablePacking }}">
+                <td>{{ product.name }}</td>
+                <td>{{ product.price }}</td>
+                <td>{{ product.quantity }}</td>
+                <td>{{ product.availablePacking }}</td>
+                <td>{{ product.unit }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+</section>
+
+    <footer>
+        <div class="footer">
+            <p>© 2025 Smart Grocery Assistant</p>
+        </div>
+    </footer>
+    <script>
+document.getElementById("chat-form").addEventListener("submit", async function(e) {
+    e.preventDefault();
+
+    const inputField = document.getElementById("user-input");
+    const userInput = inputField.value.trim();
+    if (!userInput) return;
+
+    const chatBox = document.querySelector(".chat");
+
+    // Show user message
+    chatBox.innerHTML += `
+        <div class="user-message">
+            <p><strong>You:</strong> ${userInput}</p>
+        </div>
+    `;
+
+    // Clear input immediately
+    inputField.value = "";
+
+    // Auto-scroll down
+    chatBox.scrollTop = chatBox.scrollHeight;
+
+    try {
+        const response = await fetch("/chatbot/message", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ message: userInput })
+        });
+
+        const data = await response.json();
+
+        // Show bot message
+        chatBox.innerHTML += `
+            <div class="bot-message">
+                <i class="fa-solid fa-comment"></i>
+                <p>${data.reply}</p>
+            </div>
+        `;
+
+        chatBox.scrollTop = chatBox.scrollHeight;
+
+    } catch (err) {
+        console.error("Error:", err);
+        chatBox.innerHTML += `
+            <div class="bot-message">
+                <i class="fa-solid fa-comment"></i>
+                <p>Oops! Something went wrong. Try again later.</p>
+            </div>
+        `;
+    }
+});
+
+// Add click event to each product row
+document.querySelectorAll("#productTable .product-row").forEach(row => {
+    row.addEventListener("click", async function() {
+        const productName = this.dataset.name;
+        const packing = this.dataset.packing;
+        const quantity = 1; // default quantity, can be changed or prompted
+
+        try {
+            const response = await fetch("/add_to_cart", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ productName, packing, quantity })
+            });
+
+            const data = await response.json();
+            alert(data.message); // Optional: show success message
+            console.log("Updated cart:", data.cart);
+
+        } catch (err) {
+            console.error("Error adding to cart:", err);
+            alert("Error adding product to cart. Try again.");
+        }
+    });
+});
+//voice button
+    const voiceBtn = document.getElementById('voiceBtn');
+    const userInputField = document.getElementById('user-input');
+
+    voiceBtn.addEventListener('click', () => {
+        const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+        recognition.lang = 'en-IN'; // Indian English accent support
+        recognition.start();
+
+        recognition.onresult = (event) => {
+            const transcript = event.results[0][0].transcript;
+            userInputField.value = transcript; // Fill input with speech result
+        };
+
+        recognition.onerror = (event) => {
+            alert("Voice recognition error: " + event.error);
+        };
+    });
+
+</script>
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+ <html lang="en">
+ <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thankyou-Smart Grocery Store Assistant</title>
+   
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/thankyou.css') }}"/>
+ </head>
+ <body>
+    <header>
+        <div class="main">
+            <div class="logo">
+                <img src="{{ url_for('static', filename='images/logo.png') }}">
+                <h2>ShopiBot</h2>
+
+            </div>
+             <nav>
+                <a href="{{ url_for('home') }}">Home</a>
+                <a href="{{ url_for('logout') }}">Logout</a>
+                <a href="{{ url_for('cart') }}">Cart</a>
+
+                
+
+            </nav>
+        </div>
+        
+        
+    </header>
+    <main class="thankyou-container">
+        <div class="thankyou-box">
+            <h1>Thank You!</h1>
+            <p>Your order has been placed successfully.</p>
+            <p>We’ll deliver your groceries soon</p>
+
+
+            <a href="{{ url_for('home')}}"class="btn">Back to Home</a>
+
+            <form method="POST" action="/delete_account" onsubmit="return confirm('Are you sure you want to delete your account? This cannot be undone.')">
+                <button type="submit" class="btn danger">Delete My Account</button>
+            </form>
+        </div>
+    
+
+
+    </main>
+    <footer>
+        <div class="footer">
+            <p>© 2025 Smart Grocery Assistant</p>
+        </div>
+    </footer>
+
+ </body>
+ </html>
+

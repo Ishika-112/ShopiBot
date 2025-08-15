@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+ <html lang="en">
+ <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel-Smart Grocery Store Assistant</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+ </head>
+ <body>
+    <header>
+        <div class="main">
+            <div class="logo">
+                <img src="{{ url_for('static', filename='images/logo.png') }}">
+                <h2>ShopiBot</h2>
+
+            </div>
+             <nav>
+                <a href="{{url_for('admin')}}">Dashboard</a>
+                <a href="{{url_for('addProducts')}}">Add Products</a>
+                 <a href="/logout">Logout</a>
+                
+
+            </nav>
+        </div>
+        
+        
+    </header>
+    <main class="content">
+        <h1>Welcome, Admin!</h1>
+        <section class="stats">
+            <div class="card">
+                <h3>Total Users</h3>
+                <p>{{ total_users }}</p>
+            </div>
+            <div class="card"id="orders-card">
+                <h3>Total Orders</h3>
+                <p>{{ total_orders }}</p>
+            </div>
+        </section>
+        <section>
+        {% if low_stock_products %}
+<div class="low-stock-container">
+    <h2>Low Stock Alert</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Quantity Left</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for p in low_stock_products %}
+            <tr>
+                <td>{{ p.name }}</td>
+                <td>{{ p.quantity }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}
+</section>
+<section class="payments">
+    <h2>Customer Payments</h2>
+    <table>
+        <tr>
+            <th>Customer Name</th>
+            <th>Total Amount</th>
+            <th>Payment Mode</th>
+        </tr>
+        {% for order in orders %}
+        <tr>
+            <td>{{ order.name }}</td>
+            <td>₹{{ order.total }}</td>
+            <td>{{ order.payment }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</section>
+        <div class="actions">
+            <a href="/view-users" class="btn">View All Users</a>
+            <a href="/view_orders" class="btn">View All Orders</a>
+        </div>
+    </main>
+    <footer>
+        <div class="footer">
+            <p>© 2025 Smart Grocery Assistant</p>
+        </div>
+    </footer>
+
+</body>
+</html>
