@@ -8,8 +8,6 @@ import spacy
 nlp = spacy.load("en_core_web_sm")
 app = Flask(__name__)
 #---for flash messages and session secret key is mandatory----
-import os
-
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 db_path = os.path.join(BASE_DIR, 'instance', 'Grocery.db')
 
@@ -18,7 +16,9 @@ app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{db_path}"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)
-with app.app_context():
+
+@app.before_first_request
+def create_tables():
     db.create_all()
     print("Tables created successfully")
 
