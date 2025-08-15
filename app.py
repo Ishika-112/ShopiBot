@@ -20,6 +20,8 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
 with app.app_context():
     db.create_all()
+    print("Tables created successfully")
+
 
 #---defining tables models-----
 class Users(db.Model):
