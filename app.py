@@ -11,7 +11,7 @@ app = Flask(__name__)
 import os
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
-db_path = os.path.join(BASE_DIR, 'instance', 'ShopiBot.db')
+db_path = os.path.join(BASE_DIR, 'instance', 'Grocery.db')
 
 app.secret_key = "my_secret_key"
 app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{db_path}"
