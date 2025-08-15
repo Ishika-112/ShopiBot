@@ -1,19 +1,29 @@
-from flask import Flask,render_template,request,redirect,session,url_for,flash,jsonify
+from flask import Flask, render_template, request, redirect, session, url_for, flash, jsonify, make_response
 from flask_sqlalchemy import SQLAlchemy
 from collections import Counter
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
-from flask import make_response
-import spacy
-nlp = spacy.load("en_core_web_sm")
-app = Flask(__name__)
-#---for flash messages and session secret key is mandatory----
 import os
+import io
+import json
+import re
 
+app = Flask(__name__)
+
+# ---- Safe optional spaCy load (avoid crash if model not present) ----
+try:
+    import spacy
+    try:
+        nlp = spacy.load("en_core_web_sm")
+    except Exception:
+        nlp = None  # model not available on server; continue without it
+except ImportError:
+    nlp = None
+
+# ---- SQLite path: create instance dir and point DB there ----
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 instance_dir = os.path.join(BASE_DIR, 'instance')
-os.makedirs(instance_dir, exist_ok=True)  # folder auto-create
-
+os.makedirs(instance_dir, exist_ok=True)  # create folder if missing
 db_path = os.path.join(instance_dir, 'Grocery.db')
 
 app.secret_key = "my_secret_key"
@@ -22,10 +32,16 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)
 
+# Create tables once the app starts serving (safe for Gunicorn)
 @app.before_first_request
 def create_tables():
     db.create_all()
     print("Tables created successfully")
+
+# Simple health check (helps Railway)
+@app.route("/health")
+def health():
+    return "ok", 200
 
 
 #---defining tables models-----
@@ -868,13 +884,16 @@ items = [
 ]
 
 if __name__ == "__main__":
+    # Local run (Railway भी इसी HOST/PORT पर चलाता है)
+    port = int(os.environ.get("PORT", 8080))
     with app.app_context():
         db.create_all()
+        # Seed products if not present
         for item in items:
-            exists = Products.query.filter_by(name=item.name , availablePacking = item.availablePacking).first()
+            exists = Products.query.filter_by(name=item.name, availablePacking=item.availablePacking).first()
             if not exists:
                 db.session.add(item)
         db.session.commit()
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=port, debug=False)
 
 
