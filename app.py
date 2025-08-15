@@ -9,7 +9,7 @@ nlp = spacy.load("en_core_web_sm")
 app = Flask(__name__)
 #---for flash messages and session secret key is mandatory----
 app.secret_key = "my_secret_key"
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///Grocery.db"
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///ShopiBot.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
 #---defining tables models-----
