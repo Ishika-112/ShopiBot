@@ -33,7 +33,7 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
 
 # Create tables once the app starts serving (safe for Gunicorn)
-@app.before_first_request
+
 def create_tables():
     db.create_all()
     print("Tables created successfully")
