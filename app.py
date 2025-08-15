@@ -4,19 +4,19 @@ from collections import Counter
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import os
-import io
-import json
-import re
-import os
 
 app = Flask(__name__)
 
-# Database config (SQLite in instance folder)
-os.makedirs("instance", exist_ok=True)
+# Ensure instance directory exists
+os.makedirs('instance', exist_ok=True)
+
+# Configure SQLAlchemy
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///instance/database.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.secret_key = "my_secret_key"
 
 db = SQLAlchemy(app)
+
 
 
 #---defining tables models-----
@@ -857,30 +857,18 @@ items = [
     Products(name="Chilli Powder", category="Spices",availablePacking="200 g", price=70, quantity=50, unit="g", description="Fiery red chilli powder for bold and spicy flavor."),
     Products(name="Cumin Seeds", category="Spices",availablePacking="100 g", price=140, quantity=50, unit="g", description="Aromatic cumin seeds to enhance flavor in your dishes.")
 ]
+def create_tables():
+    with app.app_context():
+        db.create_all()
+        print("Tables created successfully")
+
+@app.route("/health")
+def health():
+    return "ok", 200
 
 if __name__ == "__main__":
-    # Local run (Railway भी इसी HOST/PORT पर चलाता है)
     port = int(os.environ.get("PORT", 8080))
-    
-    with app.app_context():
-        # Tables create करो
-        db.create_all()
-        
-        # Seed products if not present
-        try:
-            for item in items:
-                exists = Products.query.filter_by(
-                    name=item.name,
-                    availablePacking=item.availablePacking
-                ).first()
-                if not exists:
-                    db.session.add(item)
-            db.session.commit()
-            print("Tables created and products seeded successfully.")
-        except Exception as e:
-            print("Error while seeding products:", e)
-    
-    # App run
+    create_tables()
     app.run(host="0.0.0.0", port=port, debug=False)
 
 
