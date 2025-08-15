@@ -8,8 +8,13 @@ import spacy
 nlp = spacy.load("en_core_web_sm")
 app = Flask(__name__)
 #---for flash messages and session secret key is mandatory----
+import os
+
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
-db_path = os.path.join(BASE_DIR, 'instance', 'Grocery.db')
+instance_dir = os.path.join(BASE_DIR, 'instance')
+os.makedirs(instance_dir, exist_ok=True)  # folder auto-create
+
+db_path = os.path.join(instance_dir, 'Grocery.db')
 
 app.secret_key = "my_secret_key"
 app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{db_path}"
