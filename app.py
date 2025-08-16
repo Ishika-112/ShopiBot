@@ -5,19 +5,16 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import os
 
-app = Flask(__name__)
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+instance_dir = os.path.join(BASE_DIR, "instance")
+os.makedirs(instance_dir, exist_ok=True)  # instance folder bana lo agar missing hai
+db_path = os.path.join(instance_dir, "Grocery.db")
 
-# Ensure instance directory exists
-os.makedirs('instance', exist_ok=True)
-
-# Configure SQLAlchemy
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///instance/database.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = "my_secret_key"
+app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{db_path}"
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)
-
-
 
 #---defining tables models-----
 class Users(db.Model):
@@ -43,6 +40,10 @@ class Orders(db.Model):
     payment = db.Column(db.String(50))
     items = db.Column(db.Text)
     total = db.Column(db.Float)
+
+with app.app_context():
+    db.create_all()
+
 logged_in_users = {}
 #----defining routes----
 @app.route("/")
@@ -857,18 +858,25 @@ items = [
     Products(name="Chilli Powder", category="Spices",availablePacking="200 g", price=70, quantity=50, unit="g", description="Fiery red chilli powder for bold and spicy flavor."),
     Products(name="Cumin Seeds", category="Spices",availablePacking="100 g", price=140, quantity=50, unit="g", description="Aromatic cumin seeds to enhance flavor in your dishes.")
 ]
-def create_tables():
+def setup_database():
     with app.app_context():
         db.create_all()
-        print("Tables created successfully")
-
-@app.route("/health")
-def health():
-    return "ok", 200
-
+        for item in items:
+            exists = Products.query.filter_by(
+                name=item["name"], availablePacking=item["availablePacking"]
+            ).first()
+            if not exists:
+                new_product = Products(
+                    name=item["name"],
+                    availablePacking=item["availablePacking"],
+                    price=item["price"],
+                )
+                db.session.add(new_product)
+        db.session.commit()
+        print("Database initialized and default products added")
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8080))
-    create_tables()
+    setup_database()
     app.run(host="0.0.0.0", port=port, debug=False)
 
 
