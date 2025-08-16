@@ -4,14 +4,13 @@ from collections import Counter
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import os
+app = Flask(__name__)
 
-BASE_DIR = os.path.abspath(os.path.dirname(__file__))
-instance_dir = os.path.join(BASE_DIR, "instance")
-os.makedirs(instance_dir, exist_ok=True)  # instance folder bana lo agar missing hai
-db_path = os.path.join(instance_dir, "Grocery.db")
+uri = os.getenv("DATABASE_URL")
+if uri and uri.startswith("postgres://"):
+    uri = uri.replace("postgres://", "postgresql://", 1)
 
-app.secret_key = "my_secret_key"
-app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{db_path}"
+app.config["SQLALCHEMY_DATABASE_URI"] = uri
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)
