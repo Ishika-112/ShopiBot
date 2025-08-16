@@ -5,17 +5,9 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import os
 app = Flask(__name__)
-
-# Get DATABASE_URL from environment
-db_url = os.environ.get("DATABASE_URL")
-
-# Railway sometimes gives 'postgres://' instead of 'postgresql://'
-if db_url and db_url.startswith("postgres://"):
-    db_url = db_url.replace("postgres://", "postgresql://", 1)
-
-app.config["SQLALCHEMY_DATABASE_URI"] = db_url
+app = Flask(__name__)
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///instance/Grocery.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-
 db = SQLAlchemy(app)
 
 #---defining tables models-----
@@ -42,9 +34,6 @@ class Orders(db.Model):
     payment = db.Column(db.String(50))
     items = db.Column(db.Text)
     total = db.Column(db.Float)
-
-with app.app_context():
-    db.create_all()
 
 logged_in_users = {}
 #----defining routes----
@@ -834,51 +823,45 @@ def addProducts():
     return render_template("add_products.html")
 
 #-----------add products functionality completed-------------------------
-#-------------Default values to products table-------------------------
-items = [
-    Products(name="Cheese", category="Dairy",availablePacking ="200 g",price=90, quantity=100, unit="g", description="Rich, creamy, and full of flavor — our fresh cheese is perfect for sandwiches, salads, or a quick snack."),
-    Products(name="Desi Ghee", category="Dairy", availablePacking="1000 g",price=800, quantity=20, unit="g", description="Pure and aromatic, our desi ghee is made from the finest quality milk, adding rich flavor and wholesome goodness to every dish."),
-    Products(name="Turmeric", category="Spices",availablePacking="500 g",price=80, quantity=100, unit="g", description="Bright and aromatic, our turmeric is packed with natural flavor and vibrant color, perfect for enhancing curries, teas, and everyday cooking."),
-    Products(name="Turmeric", category="Spices",availablePacking="1000 g", price=150, quantity=50, unit="g", description="Bright and aromatic, our turmeric is packed with natural flavor and vibrant color, perfect for enhancing curries, teas, and everyday cooking."),
-    Products(name="Coconut Biscuit", category="Snacks", availablePacking="100 g",price=10, quantity=100, unit="g", description="Crispy and sweet coconut-flavored biscuits for a delightful snack."),
-    Products(name="Bakery Biscuit", category="Snacks",availablePacking="250 g", price=40, quantity=100, unit="g", description="Freshly baked biscuits with a rich buttery taste."),
-    Products(name="Oreo Biscuit", category="Snacks", availablePacking="80 g",price=10, quantity=100, unit="g", description="Delicious chocolate biscuits with creamy filling."),
-    Products(name="Haldiram Namkeen", category="Snacks",availablePacking="150 g", price=200, quantity=50, unit="g", description="Crispy and spicy Haldiram namkeen perfect for tea time."),
-    Products(name="Bikanery Namkeen", category="Snacks",availablePacking="170 g", price=190, quantity=50, unit="g", description="Tasty and crunchy Bikaneri namkeen made with authentic spices."),
-    Products(name="Rice", category="Grains",availablePacking="1000 g", price=90, quantity="100", unit="g", description="Premium quality rice for everyday cooking."),
-    Products(name="Atta", category="Grains", availablePacking="5000 g",price=230, quantity=100, unit="g", description="Freshly milled wheat flour for soft rotis and parathas."),
-    Products(name="Atta", category="Grains",availablePacking="10000 g", price=430, quantity=100, unit="g", description="Freshly milled wheat flour for soft rotis and parathas."),
-    Products(name="Refined", category="Grocery", availablePacking="900 g",price=200, quantity=80, unit="g", description="Refined flour perfect for baking and cooking."),
-    Products(name="Moong Dal", category="Pulses", availablePacking="500 g",price=60, quantity=80, unit="g", description="Fresh and clean moong dal rich in protein."),
-    Products(name="Chana Dal", category="Pulses", availablePacking="500 g",price=70, quantity=80, unit="g", description="Nutritious chana dal ideal for dal fry and curries."),
-    Products(name="Rajma", category="Pulses", availablePacking="500 g",price=90, quantity=70, unit="g", description="High-quality red kidney beans for flavorful dishes."),
-    Products(name="Sugar", category="Grocery",availablePacking="500 g", price=25, quantity=50, unit="g", description="Pure refined sugar for everyday use."),
-    Products(name="Tea", category="Beverages",availablePacking="500 g", price=270, quantity=40, unit="g", description="Premium tea leaves for a refreshing brew."),
-    Products(name="Salt", category="Grocery",availablePacking="1000 g", price=20, quantity=100, unit="g", description="Pure and natural salt for cooking."),
-    Products(name="Brown Bread", category="Bakery",availablePacking="400 g", price=40, quantity=30, unit="g", description="Healthy brown bread made from whole wheat."),
-    Products(name="White Bread", category="Bakery",availablePacking="400 g", price=30, quantity=40, unit="g", description="Soft and fresh white bread for sandwiches."),
-    Products(name="Chilli Powder", category="Spices",availablePacking="200 g", price=70, quantity=50, unit="g", description="Fiery red chilli powder for bold and spicy flavor."),
-    Products(name="Cumin Seeds", category="Spices",availablePacking="100 g", price=140, quantity=50, unit="g", description="Aromatic cumin seeds to enhance flavor in your dishes.")
-]
-def setup_database():
+#----------default items in Products Table-------------
+if __name__ == "__main__":
     with app.app_context():
         db.create_all()
+
+        items = [
+            Products(name="Cheese", category="Dairy", availablePacking="200 g", price=90, quantity=100, unit="g", description="Rich, creamy, and full of flavor — our fresh cheese is perfect for sandwiches, salads, or a quick snack."),
+            Products(name="Desi Ghee", category="Dairy", availablePacking="1000 g", price=800, quantity=20, unit="g", description="Pure and aromatic, our desi ghee is made from the finest quality milk, adding rich flavor and wholesome goodness to every dish."),
+            Products(name="Turmeric", category="Spices", availablePacking="500 g", price=80, quantity=100, unit="g", description="Bright and aromatic, our turmeric is packed with natural flavor and vibrant color, perfect for enhancing curries, teas, and everyday cooking."),
+            Products(name="Turmeric", category="Spices", availablePacking="1000 g", price=150, quantity=50, unit="g", description="Bright and aromatic, our turmeric is packed with natural flavor and vibrant color, perfect for enhancing curries, teas, and everyday cooking."),
+            Products(name="Coconut Biscuit", category="Snacks", availablePacking="100 g", price=10, quantity=100, unit="g", description="Crispy and sweet coconut-flavored biscuits for a delightful snack."),
+            Products(name="Bakery Biscuit", category="Snacks", availablePacking="250 g", price=40, quantity=100, unit="g", description="Freshly baked biscuits with a rich buttery taste."),
+            Products(name="Oreo Biscuit", category="Snacks", availablePacking="80 g", price=10, quantity=100, unit="g", description="Delicious chocolate biscuits with creamy filling."),
+            Products(name="Haldiram Namkeen", category="Snacks", availablePacking="150 g", price=200, quantity=50, unit="g", description="Crispy and spicy Haldiram namkeen perfect for tea time."),
+            Products(name="Bikanery Namkeen", category="Snacks", availablePacking="170 g", price=190, quantity=50, unit="g", description="Tasty and crunchy Bikaneri namkeen made with authentic spices."),
+            Products(name="Rice", category="Grains", availablePacking="1000 g", price=90, quantity=100, unit="g", description="Premium quality rice for everyday cooking."),
+            Products(name="Atta", category="Grains", availablePacking="5000 g", price=230, quantity=100, unit="g", description="Freshly milled wheat flour for soft rotis and parathas."),
+            Products(name="Atta", category="Grains", availablePacking="10000 g", price=430, quantity=100, unit="g", description="Freshly milled wheat flour for soft rotis and parathas."),
+            Products(name="Refined", category="Grocery", availablePacking="900 g", price=200, quantity=80, unit="g", description="Refined flour perfect for baking and cooking."),
+            Products(name="Moong Dal", category="Pulses", availablePacking="500 g", price=60, quantity=80, unit="g", description="Fresh and clean moong dal rich in protein."),
+            Products(name="Chana Dal", category="Pulses", availablePacking="500 g", price=70, quantity=80, unit="g", description="Nutritious chana dal ideal for dal fry and curries."),
+            Products(name="Rajma", category="Pulses", availablePacking="500 g", price=90, quantity=70, unit="g", description="High-quality red kidney beans for flavorful dishes."),
+            Products(name="Sugar", category="Grocery", availablePacking="500 g", price=25, quantity=50, unit="g", description="Pure refined sugar for everyday use."),
+            Products(name="Tea", category="Beverages", availablePacking="500 g", price=270, quantity=40, unit="g", description="Premium tea leaves for a refreshing brew."),
+            Products(name="Salt", category="Grocery", availablePacking="1000 g", price=20, quantity=100, unit="g", description="Pure and natural salt for cooking."),
+            Products(name="Brown Bread", category="Bakery", availablePacking="400 g", price=40, quantity=30, unit="g", description="Healthy brown bread made from whole wheat."),
+            Products(name="White Bread", category="Bakery", availablePacking="400 g", price=30, quantity=40, unit="g", description="Soft and fresh white bread for sandwiches."),
+            Products(name="Chilli Powder", category="Spices", availablePacking="200 g", price=70, quantity=50, unit="g", description="Fiery red chilli powder for bold and spicy flavor."),
+            Products(name="Cumin Seeds", category="Spices", availablePacking="100 g", price=140, quantity=50, unit="g", description="Aromatic cumin seeds to enhance flavor in your dishes."),
+        ]
+
         for item in items:
             exists = Products.query.filter_by(
-                name=item["name"], availablePacking=item["availablePacking"]
+                name=item.name,
+                availablePacking=item.availablePacking
             ).first()
             if not exists:
-                new_product = Products(
-                    name=item["name"],
-                    availablePacking=item["availablePacking"],
-                    price=item["price"],
-                )
-                db.session.add(new_product)
+                db.session.add(item)
+
         db.session.commit()
-        print("Database initialized and default products added")
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 8080))
-    setup_database()
-    app.run(host="0.0.0.0", port=port, debug=False)
 
-
+    app.run(debug=True)
