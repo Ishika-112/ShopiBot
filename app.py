@@ -28,7 +28,7 @@ with app.app_context():
 
 #---defining tables models-----
 class Users(db.Model):
-        __tablename__ = "Users"
+        __tablename__ = "users"
 
     UserName = db.Column(db.String(50), primary_key=True)
     Email = db.Column(db.String(50), nullable=False)
