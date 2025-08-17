@@ -28,12 +28,13 @@ with app.app_context():
 
 #---defining tables models-----
 class Users(db.Model):
-        __tablename__ = "users"
+    __tablename__ = "users"
 
-        UserName = db.Column(db.String(50), primary_key=True)
-        Email = db.Column(db.String(50), nullable=False)
-        Password = db.Column(db.String(50), nullable=False)
-        Role = db.Column(db.String(50), nullable=False)
+    UserName = db.Column(db.String(50), primary_key=True)
+    Email = db.Column(db.String(50), nullable=False)
+    Password = db.Column(db.String(50), nullable=False)
+    Role = db.Column(db.String(50), nullable=False)
+
 class Products(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
