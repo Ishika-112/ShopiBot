@@ -1,0 +1,199 @@
+* {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f4f3;
+}
+
+.main {
+  background-color: #2d6a4f;
+  display: flex;
+  height: 80px;
+  padding: 0 2rem;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.logo img {
+  height: 40px;
+  margin-right: 10px;
+}
+
+.logo h2 {
+  color: #fff;
+}
+
+nav {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+nav a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 18px;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+.bill-container {
+  background-color: #ffffff;
+  width: 80%;
+  max-width: 850px;
+  margin: 40px auto;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.bill-container h2 {
+  text-align: center;
+  color: #2d6a4f;
+  margin-bottom: 20px;
+}
+
+.customer-info p {
+  font-size: 16px;
+  margin: 8px 0;
+  color: #1b4332;
+  font-weight: bold;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 25px;
+  font-size: 16px;
+}
+
+th,
+td {
+  padding: 12px;
+  text-align: center;
+  border-bottom: 1px solid #ccc;
+}
+
+th {
+  background-color: #74c69d;
+  color: #fff;
+}
+
+tr:hover {
+  background-color: #f1fdf6;
+}
+
+.total {
+  text-align: right;
+  font-size: 20px;
+  font-weight: bold;
+  color: #1b4332;
+  margin-top: 20px;
+}
+.qr-section{
+  text-align:center;
+  margin-top:20px;
+}
+.qr-section h3{
+  margin-bottom:15px;
+}
+button.download-btn {
+  display: block;
+  margin: 30px auto 0;
+  padding: 14px 28px;
+  background-color: #52b788;
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button.download-btn:hover {
+  background-color: #40916c;
+}
+.btn-payment {
+  background-color: #28a745;
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 20px;
+  margin-left:43%;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.btn-payment:hover {
+  background-color: #218838;
+}
+
+.footer {
+  padding: 1rem;
+  background-color: #2d6a4f;
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.footer p {
+  color: #fff;
+  font-size: 16px;
+}
+
+/* 📱 RESPONSIVE */
+@media (max-width: 768px) {
+  .main {
+    flex-direction: column;
+    align-items: flex-start;
+    height: auto;
+    padding: 1rem;
+  }
+
+  nav {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    margin-top: 10px;
+    width: 100%;
+  }
+
+  .bill-container {
+    width: 90%;
+    padding: 20px;
+  }
+
+  table {
+    font-size: 14px;
+  }
+
+  th, td {
+    padding: 10px;
+  }
+
+  .total {
+    font-size: 18px;
+    text-align: center;
+  }
+
+  button.download-btn {
+    width: 100%;
+    font-size: 15px;
+  }
+}

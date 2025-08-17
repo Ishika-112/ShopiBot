@@ -1,0 +1,148 @@
+* {
+      margin: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+    }
+
+    .main {
+      background-color: #2d6a4f;
+      display: flex;
+      flex-wrap: wrap;
+      padding: 1rem 2rem;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      flex: 1;
+    }
+
+    .logo img {
+      height: 40px;
+      object-fit: cover;
+      margin-right: 10px;
+    }
+
+    .logo h2 {
+      color: #fff;
+    }
+
+    nav {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 18px;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+    .thankyou-container {
+margin-left:30%;
+margin-top:25px;
+justify-content: center;
+align-items: center;
+min-height: 70vh;
+padding: 2rem;
+}
+
+.thankyou-box {
+background: white;
+padding: 2rem 3rem;
+border-radius: 12px;
+box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+text-align: center;
+width: 100%;
+max-width: 500px;
+}
+
+.thankyou-box h1 {
+color: #1b4332;
+font-size: 2.5rem;
+}
+
+.thankyou-box p {
+font-size: 1.2rem;
+margin-top: 1rem;
+}
+
+.btn {
+display: inline-block;
+margin-top: 1.5rem;
+background: #40916c;
+color: white;
+padding: 0.8rem 1.2rem;
+text-decoration: none;
+border-radius: 8px;
+font-weight: bold;
+border: none;
+cursor: pointer;
+}
+
+.btn:hover {
+background: #1b4332;
+}
+
+.btn.danger {
+background: #d9534f;
+margin-left: 1rem;
+}
+
+.btn.danger:hover {
+background: #c9302c;
+}
+#game{
+  margin-left:20%;
+}
+.footer {
+      padding: 1rem;
+      background-color: #2d6a4f;
+      text-align: center;
+}
+
+.footer p {
+      color: #fff;
+      font-size: 16px;
+    }
+@media (max-width: 600px) {
+  .thankyou-box {
+    padding: 1.5rem;
+  }
+
+  nav {
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  .main {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .logo {
+    margin-bottom: 1rem;
+  }
+
+  .btn {
+    width: 100%;
+    margin-top: 1rem;
+  }
+
+  .btn.danger {
+    margin-left: 0;
+  }
+}
+

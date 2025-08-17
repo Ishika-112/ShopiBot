@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Smart Grocery Store Assistant</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+</head>
+<body>
+    <header>
+        <div class="main">
+            <div class="logo">
+               <img src="{{ url_for('static', filename='images/logo.png') }}">
+               <h2>ShopiBot</h2>
+            </div>
+            <nav>
+                <a href="{{ url_for('login') }}">Login</a>
+                <a href="{{ url_for('register') }}">Register</a>
+            </nav>
+        </div>
+    </header>
+    <section>
+        <div class="login">
+            <h2>Login</h2>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% for category, message in messages %}
+            <div id="message" data-category="{{ category }}">{{ message }}</div>
+            {% endfor %}
+            {% endwith %}
+
+            <div class="form">
+                <form method="POST" action="{{ url_for('login') }}">
+                    <label for="username">Username</label><br>
+                    <input type="text" id="username" name="username" required><br>
+
+                    <label for="password">Password</label><br>
+                    <input type="password" id="password" name="password" required><br>
+                    <button type="submit">Login</button>
+                </form>
+            </div>
+
+            <p>New User? <a href="{{ url_for('register') }}">Register here</a></p>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer">
+            <p>© 2025 Smart Grocery Assistant</p>
+        </div>
+    </footer>
+
+</body>
+</html>

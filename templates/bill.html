@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Your Bill - ShopiBot</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/bill.css') }}">
+</head>
+<body>
+<header>
+  <div class="main">
+    <div class="logo">
+      <img src="{{ url_for('static', filename='images/logo.png') }}">
+      <h2>ShopiBot</h2>
+    </div>
+    <nav>
+      <a href="{{ url_for('home') }}">Home</a>
+      <a href="{{ url_for('cart') }}">Cart</a>
+      <a href="{{ url_for('logout') }}">Logout</a>
+    </nav>
+  </div>
+</header>
+
+<section>
+  <div class="container">
+    <h2>Order Summary</h2>
+
+    <p><strong>Name:</strong> {{ order.name }}</p>
+    <p><strong>Phone:</strong> {{ order.phone }}</p>
+    <p><strong>Address:</strong> {{ order.address }}</p>
+    <p><strong>Payment:</strong> {{ order.payment }}</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Qty</th>
+          <th>Price (₹)</th>
+          <th>Subtotal (₹)</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in items %}
+        <tr>
+          <td>{{ item['name'] }}</td>
+          <td>{{ item['quantity'] }}</td>
+          <td>{{ item['price'] }}</td>
+          <td>{{ item['subtotal'] }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <div class="total">
+      Total: ₹{{ order.total }}
+    </div>
+<div class="qr-section">
+  <h3>Scan & Pay (Preview)</h3>
+  <img src="data:image/png;base64,{{ qr_code }}" alt="QR Code" width="200">
+  <p style="color: gray; font-size: 14px;">Please proceed to payment page to complete payment</p>
+</div>
+
+    <!-- Download Bill Button -->
+    <form action="{{ url_for('download_bill') }}" method="get">
+      <button type="submit" class="download-btn">Download Bill</button>
+    </form>
+    <form action="{{ url_for('payment') }}" method="get">
+  <button type="submit" class="btn-payment">Continue to Payment</button>
+</form>
+
+
+  </div>
+</section>
+
+<footer>
+  <div class="footer">
+    <p>© 2025 Smart Grocery Assistant</p>
+  </div>
+</footer>
+
+</body>
+</html>

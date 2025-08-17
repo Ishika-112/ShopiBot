@@ -1,0 +1,235 @@
+* {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f4f3;
+  color: #333;
+}
+
+.main {
+  background-color: #2d6a4f;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 1rem 2rem;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.logo img {
+  height: 40px;
+  object-fit: cover;
+  margin-right: 10px;
+}
+
+.logo h2 {
+  color: #fff;
+  font-size: 1.5rem;
+}
+
+nav {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+nav a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 18px;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+.content {
+  padding: 2rem;
+}
+
+h1 {
+  color: #1b4332;
+  text-align: center;
+}
+
+.stats {
+  display: flex;
+  margin: 50px;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.card {
+  background-color: white;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  width: 200px;
+  text-align: center;
+}
+
+.card h3 {
+  color: #40916c;
+}
+
+.card p {
+  font-size: 20px;
+  color: #1b4332;
+}
+.low-stock-container {
+  background-color: #e6f4ea; 
+  border: 1px solid #b7e4c7; 
+  padding: 20px;
+  border-radius: 10px;
+  margin: 20px auto;
+  width: 90%;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.low-stock-container h2 {
+  color: #2d6a4f; 
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.low-stock-container table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.low-stock-container th {
+  background-color: #52b788; 
+  color: white;
+}
+
+.low-stock-container td {
+  color: #1b4332; 
+}
+
+.payments h2 {
+  text-align: center;
+  margin-top: 2rem;
+  color: #2d6a4f;
+}
+
+table {
+  width: 90%;
+  margin: 1rem auto;
+ 
+  background: white;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+}
+
+th, td {
+  padding: 12px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+th {
+  background-color: #40916c;
+  color: white;
+}
+
+.actions {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.btn {
+  background: #52b788;
+  color: white;
+  padding: 0.8rem 1.2rem;
+  border-radius: 6px;
+  text-decoration: none;
+  margin: 0 0.5rem;
+  font-weight: bold;
+  transition:0.3s ease;
+}
+
+.btn:hover {
+  background-color: #40916c;
+}
+
+footer {
+  background-color: #2d6a4f;
+  color: white;
+  text-align: center;
+  padding: 1rem;
+  margin-top: 30px;
+}
+
+/* -------------------- Responsive Styles -------------------- */
+@media (max-width: 768px) {
+  .main {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .logo {
+    justify-content: center;
+    width: 100%;
+  }
+
+  nav {
+    justify-content: center;
+    width: 100%;
+    gap: 10px;
+  }
+
+  .stats {
+    margin: 20px;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .card {
+    width: 90%;
+    max-width: 300px;
+  }
+
+  table {
+    font-size: 14px;
+  }
+
+  .btn {
+    display: inline-block;
+    margin: 10px auto;
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo h2 {
+    font-size: 1.2rem;
+  }
+
+  nav a {
+    font-size: 16px;
+  }
+
+  .card p {
+    font-size: 18px;
+  }
+
+  th, td {
+    padding: 8px;
+  }
+
+  .btn {
+    width: 100%;
+    text-align: center;
+  }
+}

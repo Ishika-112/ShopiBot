@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders - Admin Panel</title>
+    <link rel="stylesheet"href="{{url_for('static',filename = 'css/view_orders.css')}}">
+</head>
+<body>
+    <header>
+        <div class="main">
+            <div class="logo">
+                <img src="{{ url_for('static', filename='images/logo.png') }}">
+                <h2>ShopiBot</h2>
+
+            </div>
+             <nav>
+                <a href="{{url_for('admin')}}">Dashboard</a>
+                <a href="{{url_for('view_users')}}">View Users</a>
+                <a href="{{url_for('view_orders')}}">View Orders</a>
+                 <a href="/logout">Logout</a>
+            </nav>
+        </div>
+    </header>
+    <section>
+        <h1>User Orders - Admin Panel</h1>
+                <div class="parent">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Order Id</th>
+                        <th>Username</th>
+                        <th>Items</th>
+                        <th>Quantity</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+        {% for order in orders %}
+    {% for item in order['items'] %}
+    <tr>
+        <td>{{ order['id'] }}</td>
+        <td>{{ order['name'] }}</td>
+        <td>{{ item['name'] }}</td>
+        <td>{{ item['quantity'] if 'quantity' in item else 1 }}</td>
+    </tr>
+    {% endfor %}
+{% endfor %}
+
+                </tbody>
+            </table>
+        </div>
+
+    </section>
+</body>
+</html>

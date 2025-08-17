@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Products - Admin</title>
+    <link rel="stylesheet"href="{{url_for('static',filename='css/add_products.css')}}">
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+
+</head>
+<body>
+    <header>
+        <div class="main">
+            <div class="logo">
+                <img src="{{ url_for('static', filename='images/logo.png') }}">
+                <h2>ShopiBot</h2>
+
+            </div>
+             <nav>
+                <a href="{{url_for('admin')}}">Dashboard</a>
+                <a href="{{url_for('view_users')}}">View Users</a>
+                 <a href="/logout">Logout</a>
+            </nav>
+        </div>
+    </header>
+    <section>
+        <h1>Add New Products</h1>
+        <div class="form">
+            <form method="post"action="/addProducts">
+                <label for="name">Name:</label><br><br>
+                <input type="text"name="name"id="name"required/><br><br>
+                <label for="category">Category:</label><br><br>
+                <input type="text"name="category"id="category"required/><br><br>
+                <label for="price">Price:(For different packings)</label><br><br>
+                <input type="text"name="price"id="price"required/><br><br>
+                <label for="quantity">Quantity:</label><br><br>
+                <input type="text"name="quantity"id="quantity"required/><br><br>
+                <label for="availablePacking">Available Packings:(You can add multiple packings)</label><br><br>
+                <input type="text"name="availablePacking"id="availablePacking"required/><br><br>
+                <label for="unit">Unit:</label><br><br>
+                <input type="text"name="unit"id="unit"required/><br><br>
+                <label for="description">Description:</label><br><br>
+                <input type="text"name="description"id="description"required/><br><br>
+                <button type="submit">Add Products</button>
+            </form>
+        </div>
+    </section>
+    <footer>
+        <div class="footer">
+            <p>© 2025 Smart Grocery Assistant</p>
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        window.onload = function() {
+            {% if success %}
+            Swal.fire({
+            title: 'Product Added!',
+            text: 'The product has been successfully added.',
+            icon: 'success',
+            confirmButtonText: 'OK',
+            background: '#f0f9f4',
+            color: '#1b5e20',
+            confirmButtonColor: '#4caf50',
+            timer: 3000,
+            timerProgressBar: true
+            });
+            {% endif %}
+        }
+    </script>
+</body>
+</html>
