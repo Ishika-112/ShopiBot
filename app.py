@@ -23,7 +23,7 @@ app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv(
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)
-@app.before_first_request
+@app.before_request
 def create_tables():
     db.create_all()
 
