@@ -23,6 +23,10 @@ app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv(
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)
+@app.before_first_request
+def create_tables():
+    db.create_all()
+
 #---defining tables models-----
 class Users(db.Model):
     UserName = db.Column(db.String(50), primary_key=True)
